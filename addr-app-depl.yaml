@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: addr-app-depl
+  labels:
+    app: addr-app-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: addr-app-depl
+  template:
+    metadata:
+      name: addr-app-depl
+      labels:
+        app: addr-app-depl
+    spec:
+      containers:
+        - name: addr-app-depl
+          image: lynxmedia/address-book-addr-svc
+          imagePullPolicy: Always
+          env:
+            - name: DB_HOST
+              value: "mycluster-router.mysql.svc.cluster.local"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: addr-app-db
+                  key: password
+            - name: DB_NAME
+              value: "addressbook"
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+      restartPolicy: Always
+
