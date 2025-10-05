@@ -1,20 +1,20 @@
-1 apiVersion: storage.k8s.io/v1
-2 kind: StorageClass
-3 metadata:
-4 name: smb
-5 provisioner: smb.csi.k8s.io
-6 parameters:
-  7 # On Windows, "*.default.svc.cluster.local" could not be recognized by csi-proxy
-8 source: "//samba/sambashare"
-  9 # if csi.storage.k8s.io/provisioner-secret is provided, will create a sub directory
-  10 # with PV name under source
-11 csi.storage.k8s.io/provisioner-secret-name: "smbcreds"
-12 csi.storage.k8s.io/provisioner-secret-namespace: "default"
-13 csi.storage.k8s.io/node-stage-secret-name: "smbcreds"
-14 csi.storage.k8s.io/node-stage-secret-namespace: "default"
-15 volumeBindingMode: Immediate
-16 mountOptions:
-  17 - dir_mode=0777
-  18 - file_mode=0777
-  19 - uid=1001
-  20 - gid=1001
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb
+provisioner: smb.csi.k8s.io
+parameters:
+  # On Windows, "*.default.svc.cluster.local" could not be recognized by csi-proxy
+  source: "//samba/sambashare"
+  # If csi.storage.k8s.io/provisioner-secret is provided, will create a sub directory
+  # with PV name under source
+  csi.storage.k8s.io/provisioner-secret-name: "smbcreds"
+  csi.storage.k8s.io/provisioner-secret-namespace: "default"
+  csi.storage.k8s.io/node-stage-secret-name: "smbcreds"
+  csi.storage.k8s.io/node-stage-secret-namespace: "default"
+volumeBindingMode: Immediate
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1001
+  - gid=1001
